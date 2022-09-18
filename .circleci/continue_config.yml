@@ -1,5 +1,9 @@
 version: 2.1
 
+executors:
+  default:
+    docker:
+      - image: cimg/node:18.9.0
 parameters:
   run-build-frontend:
     type: boolean
@@ -15,27 +19,35 @@ parameters:
     default: false
 
 jobs:
+  migration: 
+    executor: default
+    steps:
+      - run:
+          command: echo "migrate"
   build:
-    docker: 
-      - image: cimg/node:18.9.0
+    executor: default
     steps:
       - run:
           command: echo "build!"
   deploy:
-    docker:
-      - image: cimg/node:18.9.0
+    executor: default
     steps:
       - run:
           command: echo "deploy!"
-
+  update-traffic:
+    executor: default
+    steps:
+      - run:
+          command: echo "update traffice to latest container"
 
 workflows:
   server-layers:
     jobs:
-      - build
+      - migrate
+      - build:
+          requires: migrate
       - deploy:
-          requires: 
-            - build
+          requires: build
   backend:
     when: << pipeline.parameters.run-build-backend >>
     jobs:
@@ -64,11 +76,11 @@ workflows:
       - deploy:
           requires: 
             - build
-  run-integration-tests:
-    when:
-      or: [<< pipeline.parameters.run-build-frontend >>, << pipeline.parameters.run-build-backend >>]
-    jobs:
-      - build
-      - deploy:
-          requires: 
-            - build
+  update-traffic:
+    jobs: 
+      - update-traffic:
+          requires:
+            - server-layers
+            - frontend
+            - backend
+            - open-api
