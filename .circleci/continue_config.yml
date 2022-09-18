@@ -15,34 +15,41 @@ parameters:
     default: false
 
 jobs:
-  hello:
+  build:
     docker: 
       - image: cimg/node:18.9.0
     steps:
       - run:
-          command: echo "hello"
+          command: echo "build!"
+  deploy:
+    docker:
+      - image: cimg/node:18.9.0
+    steps:
+      - run:
+          command: echo "deploy!"
+
 
 workflows:
   backend:
     when: << pipeline.parameters.run-build-backend >>
     jobs:
-      - hello
+      - deploy
   frontend:
     when: << pipeline.parameters.run-build-frontend >>
     jobs:
-      - hello:
+      - build:
           requires:
             - backend
   open-api:
     when: << pipeline.parameters.run-build-open-api >>
     jobs:
-      - hello
+      - build
   app-root:
     when: << pipeline.parameters.run-build-root >>
     jobs:
-      - hello
+      - build
   run-integration-tests:
     when:
       or: [<< pipeline.parameters.run-build-frontend >>, << pipeline.parameters.run-build-backend >>]
     jobs:
-      - hello
+      - build
