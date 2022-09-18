@@ -30,8 +30,14 @@ jobs:
 
 
 workflows:
+  server-layers:
+    jobs:
+      - build
+      - deploy:
+          requires: 
+            - build
   backend:
-#    when: << pipeline.parameters.run-build-backend >>
+    when: << pipeline.parameters.run-build-backend >>
     jobs:
       - build
       - deploy:
