@@ -16,6 +16,8 @@ parameters:
 
 jobs:
   hello:
+    docker: 
+      - image: cimg/node:18.9.0
     steps:
       - run:
           command: "hello"
