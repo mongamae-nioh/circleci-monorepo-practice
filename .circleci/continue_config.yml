@@ -1,0 +1,43 @@
+version: 2.1
+
+parameters:
+  run-build-frontend:
+    type: boolean
+    default: false
+  run-build-backend:
+    type: boolean
+    default: false
+  run-build-open-api:
+    type: boolean
+    default: false
+  run-build-root:
+    type: boolean
+    default: false
+
+workflows:
+  frontend:
+    when: << pipeline.parameters.run-build-frontend >>
+    jobs:
+      run:
+        command: echo "hello frontend"
+  backend:
+    when: << pipeline.parameters.run-build-backend >>
+    jobs:
+      run:
+        command: echo "hello backend"
+  open-api:
+    when: << pipeline.parameters.run-build-open-api >>
+    jobs:
+      run:
+        command: echo "hello backend"
+  app-root:
+    when: << pipeline.parameters.run-build-root >>
+    jobs:
+      run:
+        command: echo "hello app root"
+  run-integration-tests:
+    when:
+      or: [<< pipeline.parameters.run-build-frontend >>, << pipeline.parameters.run-build-backend >>]
+    jobs:
+      run: 
+        command: echo "test"
