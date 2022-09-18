@@ -23,16 +23,16 @@ jobs:
           command: echo "hello"
 
 workflows:
+  backend:
+    when: << pipeline.parameters.run-build-backend >>
+    jobs:
+      - hello
   frontend:
     when: << pipeline.parameters.run-build-frontend >>
     jobs:
       - hello:
           requires:
             - backend
-  backend:
-    when: << pipeline.parameters.run-build-backend >>
-    jobs:
-      - hello
   open-api:
     when: << pipeline.parameters.run-build-open-api >>
     jobs:
