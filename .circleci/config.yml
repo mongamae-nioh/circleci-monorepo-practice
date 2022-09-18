@@ -20,7 +20,7 @@ workflows:
           # line:
           # <regex path-to-test> <parameter-to-set> <value-of-pipeline-parameter>
           mapping: |
-            frntend/.* run-build-frontend true
+            frontend/.* run-build-frontend true
             backend/.* run-build-backend true
             open-api/.* run-build-open-api true
             . run-build-root true
