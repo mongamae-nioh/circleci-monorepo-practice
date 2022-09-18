@@ -45,9 +45,11 @@ workflows:
     jobs:
       - migrate
       - build:
-          requires: migrate
+          requires: 
+            - migrate
       - deploy:
-          requires: build
+          requires:
+            - build
   backend:
     when: << pipeline.parameters.run-build-backend >>
     jobs:
