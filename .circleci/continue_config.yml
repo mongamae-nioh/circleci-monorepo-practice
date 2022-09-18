@@ -31,25 +31,38 @@ jobs:
 
 workflows:
   backend:
-    when: << pipeline.parameters.run-build-backend >>
+#    when: << pipeline.parameters.run-build-backend >>
     jobs:
-      - deploy
+      - build
+      - deploy:
+          requires: 
+            - build
   frontend:
     when: << pipeline.parameters.run-build-frontend >>
     jobs:
-      - build:
-          requires:
-            - backend
+      - build
+      - deploy:
+          requires: 
+            - build
   open-api:
     when: << pipeline.parameters.run-build-open-api >>
     jobs:
       - build
+      - deploy:
+          requires: 
+            - build
   app-root:
     when: << pipeline.parameters.run-build-root >>
     jobs:
       - build
+      - deploy:
+          requires: 
+            - build
   run-integration-tests:
     when:
       or: [<< pipeline.parameters.run-build-frontend >>, << pipeline.parameters.run-build-backend >>]
     jobs:
       - build
+      - deploy:
+          requires: 
+            - build
