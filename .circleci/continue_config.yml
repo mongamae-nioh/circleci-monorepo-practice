@@ -14,12 +14,17 @@ parameters:
     type: boolean
     default: false
 
+
+jobs:
+  hello:
+    run:
+      command: "hello"
+
 workflows:
   frontend:
     when: << pipeline.parameters.run-build-frontend >>
     jobs:
-      - run:
-         command: echo "hello frontend"
+      - run
   backend:
     when: << pipeline.parameters.run-build-backend >>
     jobs:
