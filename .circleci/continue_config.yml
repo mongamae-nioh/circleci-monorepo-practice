@@ -18,26 +18,26 @@ workflows:
   frontend:
     when: << pipeline.parameters.run-build-frontend >>
     jobs:
-      run:
-        command: echo "hello frontend"
+      - run:
+         command: echo "hello frontend"
   backend:
     when: << pipeline.parameters.run-build-backend >>
     jobs:
-      run:
-        command: echo "hello backend"
+      - run:
+         command: echo "hello backend"
   open-api:
     when: << pipeline.parameters.run-build-open-api >>
     jobs:
-      run:
-        command: echo "hello backend"
+      - run:
+         command: echo "hello backend"
   app-root:
     when: << pipeline.parameters.run-build-root >>
     jobs:
-      run:
-        command: echo "hello app root"
+      - run:
+         command: echo "hello app root"
   run-integration-tests:
     when:
       or: [<< pipeline.parameters.run-build-frontend >>, << pipeline.parameters.run-build-backend >>]
     jobs:
-      run: 
-        command: echo "test"
+      - run: 
+         command: echo "test"
