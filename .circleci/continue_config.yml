@@ -43,10 +43,10 @@ jobs:
 workflows:
   server-layers:
     jobs:
-      - migrate
+      - migration
       - build:
           requires: 
-            - migrate
+            - migration
       - deploy:
           requires:
             - build
