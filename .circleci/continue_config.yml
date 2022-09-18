@@ -27,6 +27,8 @@ workflows:
     when: << pipeline.parameters.run-build-frontend >>
     jobs:
       - hello
+    requires:
+      - backend
   backend:
     when: << pipeline.parameters.run-build-backend >>
     jobs:
