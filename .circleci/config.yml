@@ -27,9 +27,9 @@ jobs:
 #            replace <<parameter.env>> to fix PROJECT_ID
 #            sed -e 's/PROJECT_ID/test-project/g' .circleci/continue_config.yml > .circleci/generated_config.yml
       - persist_to_workspace:
-          root: .
+          root: .circleci
           paths:
-            - .circleci/generated_config.yml
+            - generated_config.yml
 
 workflows:
   # the always-run workflow is always triggered, regardless of the pipeline parameters.
@@ -40,8 +40,8 @@ workflows:
       # parameters to update.
       - path-filtering/filter:
           name: check-updated-files
-          workspace_path: .
-          config-path: .circleci/generated_config.yml
+          workspace_path: .circleci
+          config-path: generated_config.yml
           # 3-column, whitespace-delimited mapping. One mapping per
           # line:
           # <regex path-to-test> <parameter-to-set> <value-of-pipeline-parameter>
