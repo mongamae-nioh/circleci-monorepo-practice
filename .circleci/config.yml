@@ -41,7 +41,7 @@ jobs:
 
 workflows:
   # the always-run workflow is always triggered, regardless of the pipeline parameters.
-  check-service-updated:
+  check-updated-services:
     jobs:
       - generate-config
       # the path-filtering/filter job determines which pipeline
@@ -57,7 +57,6 @@ workflows:
             backend/.* run-build-backend true
             open-api/.* run-build-open-api true
             server-layers/.* run-build-server-layers true
-            . run-build-root true
           base-revision: main
           # this is the path of the configuration we should trigger once
           # path filtering and pipeline parameter value updates are
