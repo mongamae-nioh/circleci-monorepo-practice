@@ -36,7 +36,7 @@ jobs:
     docker:
       - image: bufferings/cimg-cue
     steps:
-      - checkout
+#      - checkout
       - run:
           name: Generate config
           command: |
