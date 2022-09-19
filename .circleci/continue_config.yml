@@ -67,7 +67,13 @@ workflows:
           requires:
             - build
   only-migration:
-    when: << pipeline.parameters.run-build-server-layers >>
+    when: 
+      and:
+        - << pipeline.parameters.run-build-server-layers >>
+        - or:
+            - not << pipeline.parameters.run-build-frontend >>
+            - not << pipeline.parameters.run-build-backend >>
+            - not << pipeline.parameters.run-build-open-api >>
     jobs:
       - migration
   front-and-backend:
