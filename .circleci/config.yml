@@ -23,6 +23,13 @@ setup: true
 orbs:
   path-filtering: circleci/path-filtering@0.1.1
 
+jobs:
+  export-project-id:
+    docker:
+      - image: cimg/node:18.9.0
+    steps:
+      - run: export-project-id
+
 workflows:
   # the always-run workflow is always triggered, regardless of the pipeline parameters.
   always-run:
