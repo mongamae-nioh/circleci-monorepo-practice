@@ -4,6 +4,7 @@ executors:
   default:
     docker:
       - image: cimg/node:18.9.0
+
 parameters:
   run-build-frontend:
     type: boolean
