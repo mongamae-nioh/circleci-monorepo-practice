@@ -46,7 +46,7 @@ jobs:
     executor: default
     steps:
       - run:
-          command: echo "deploy frontend`!"
+          command: echo "deploy frontend!"
   deploy-backend:
     executor: default
     steps:
