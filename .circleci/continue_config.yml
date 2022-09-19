@@ -100,8 +100,9 @@ workflows:
   frontend:
     when:
       and: 
-        - << pipeline.parameters.run-build-frontend >>
+        - not: << pipeline.parameters.run-build-server-layers >>
         - not: << pipeline.parameters.run-build-backend >>
+        - << pipeline.parameters.run-build-frontend >>
     jobs:
       - build
       - deploy:
