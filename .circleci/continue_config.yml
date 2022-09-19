@@ -77,18 +77,14 @@ workflows:
       - migration
       - build-frontend
       - build-backend:
-        requires: 
-          - migration
+          requires: migration
       - build-open-api
       - deploy-frontend:
-        requires:
-          - build-frontend
+          requires: build-frontend
       - deploy-backend:
-        requires:
-          - build-backend
+          requires: build-backend
       - deploy-open-api:
-        requires:
-          - build-open-api
+          requires: build-open-api
   migration:
     when: 
       and:
