@@ -5,7 +5,7 @@ parameters:
     type: string
     default: ''
 
-command:
+commands:
   export-project-id:
     steps:
       - run:
