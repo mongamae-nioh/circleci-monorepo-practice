@@ -3,7 +3,17 @@ version: 2.1
 parameters:
   targetEnv:
     type: string
-    default: 'staging'
+    default: ''
+
+command:
+  export-project-id:
+    steps:
+      - run:
+          command: >-
+            PROJECT_ID="test-project" &&
+            echo $PROJECT_ID && 
+            echo "export PROJECT_ID=$PROJECT_ID" >> BASH_ENV &&
+            echo $BASH_ENV
 
 # this allows you to use CircleCI's dynamic configuration feature
 setup: true
@@ -36,3 +46,4 @@ workflows:
           # complete. In this case, we are using the parent dynamic
           # configuration itself.
           config-path: .circleci/continue_config.yml
+      - export-project-id
