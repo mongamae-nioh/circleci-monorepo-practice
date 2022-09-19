@@ -40,6 +40,12 @@ jobs:
       - run:
           command: echo "update traffice to latest container"
 
+# TODO: 
+#    - 条件分岐が複雑になるのでシンプルにしたい
+#    - マイグレーションだけなら単独で実行する
+#    - マイグレーションと別サービスならこれまでどおり全て実行する
+#    - frontend, backendどちらもあるならb→fの順番で実行する
+#    - それ以外はサービス単独で実行する
 workflows:
   server-layers:
     jobs:
