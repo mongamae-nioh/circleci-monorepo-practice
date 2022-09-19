@@ -41,7 +41,7 @@ jobs:
 
 workflows:
   # the always-run workflow is always triggered, regardless of the pipeline parameters.
-  always-run:
+  check-service-updated:
     jobs:
       - generate-config
       # the path-filtering/filter job determines which pipeline
