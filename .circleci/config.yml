@@ -27,8 +27,6 @@ jobs:
           command: |
             cat .circleci/continue_config.yml | sed -e 's/REPLACE/<<pipeline.parameters.env>>/g' > .circleci/generated_config.yml
             cat .circleci/generated_config.yml
-#            replace <<parameter.env>> to fix PROJECT_ID
-#            sed -e 's/PROJECT_ID/test-project/g' .circleci/continue_config.yml > .circleci/generated_config.yml
       - persist_to_workspace:
           root: .
           paths:
