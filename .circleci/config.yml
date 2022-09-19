@@ -32,14 +32,29 @@ jobs:
       - image: cimg/node:18.9.0
     steps:
       - export-project-id
+  generate-config:
+    docker:
+      - image: bufferings/cimg-cue
+    steps:
+      - checkout
+      - run:
+          name: Generate config
+          command: |
+            sed -e 's/PROJECT_ID/test-project/g' .circleci/continue_config.yml > .circleci/generated_config.yml
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .circleci/generated_config.yml
 
 workflows:
   # the always-run workflow is always triggered, regardless of the pipeline parameters.
   always-run:
     jobs:
+      - generate-config
       # the path-filtering/filter job determines which pipeline
       # parameters to update.
       - path-filtering/filter:
+          workspace_path: .
           name: check-updated-files
           # 3-column, whitespace-delimited mapping. One mapping per
           # line:
@@ -50,11 +65,11 @@ workflows:
             open-api/.* run-build-open-api true
             server-layers/.* run-build-server-layers true
             . run-build-root true
-            * project_id test
           base-revision: main
           # this is the path of the configuration we should trigger once
           # path filtering and pipeline parameter value updates are
           # complete. In this case, we are using the parent dynamic
           # configuration itself.
-          config-path: .circleci/continue_config.yml
+#          config-path: .circleci/continue_config.yml
+          config-path: .circleci/generated_config.yml
       - export-project-id
