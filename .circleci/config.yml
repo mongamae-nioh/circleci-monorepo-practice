@@ -3,7 +3,7 @@ version: 2.1
 parameters:
   targetEnv:
     type: string
-#    default: 'staging'
+    default: 'staging'
 
 # this allows you to use CircleCI's dynamic configuration feature
 setup: true
