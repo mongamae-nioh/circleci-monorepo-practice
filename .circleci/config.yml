@@ -72,4 +72,5 @@ workflows:
           # configuration itself.
 #          config-path: .circleci/continue_config.yml
           config-path: .circleci/generated_config.yml
-      - export-project-id
+          requires:
+            - generate-config
