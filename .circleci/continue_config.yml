@@ -71,10 +71,7 @@ workflows:
     jobs:
       - migration
   backend:
-    when:
-      and: 
-        - < pipeline.parameters.run-build-backend >>
-        - not: << pipeline.parameters.run-build-frontend >>
+    when: < pipeline.parameters.run-build-backend >>
     jobs:
       - build
       - deploy:
