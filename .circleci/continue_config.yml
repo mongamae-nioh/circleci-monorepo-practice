@@ -107,7 +107,7 @@ workflows:
         - << pipeline.parameters.run-build-backend >>
     jobs:
       - build-frontend
-      - build-backend:
+      - build-backend
       - deploy-frontend:
           requires:
             - build-frontend
@@ -121,7 +121,7 @@ workflows:
         - not: << pipeline.parameters.run-build-frontend >>
         - << pipeline.parameters.run-build-backend >>
     jobs:
-      - build-backend:
+      - build-backend
       - deploy-backend:
           requires:
             - build-backend
