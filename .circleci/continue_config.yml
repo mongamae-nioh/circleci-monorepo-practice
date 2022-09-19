@@ -27,16 +27,36 @@ jobs:
     steps:
       - run:
           command: echo "migrate"
-  build:
+  build-frontend:
     executor: default
     steps:
       - run:
-          command: echo "build!"
-  deploy:
+          command: echo "build frontend!"
+  build-backend:
     executor: default
     steps:
       - run:
-          command: echo "deploy!"
+          command: echo "build backend!"
+  build-open-api:
+    executor: default
+    steps:
+      - run:
+          command: echo "build open api!"
+  deploy-frontend:
+    executor: default
+    steps:
+      - run:
+          command: echo "deploy frontend`!"
+  deploy-backend:
+    executor: default
+    steps:
+      - run:
+          command: echo "deploy backend!"
+  deploy-open-api:
+    executor: default
+    steps:
+      - run:
+          command: echo "deploy open api!"
   update-traffic:
     executor: default
     steps:
@@ -44,11 +64,6 @@ jobs:
           command: echo "update traffice to latest container"
 
 # TODO: 
-#    - 条件分岐が複雑になるのでシンプルにしたい
-#    - マイグレーションだけなら単独で実行する
-#    - マイグレーションと別サービスならこれまでどおり全て実行する
-#    - frontend, backendどちらもあるならb→fの順番で実行する
-#    - それ以外はサービス単独で実行する
 workflows:
   all:
     when:
@@ -60,13 +75,21 @@ workflows:
             - << pipeline.parameters.run-build-open-api >>
     jobs:
       - migration
-      - build:
-          requires: 
-            - migration
-      - deploy:
-          requires:
-            - build
-  only-migration:
+      - build-frontend
+      - build-backend:
+        requires: 
+          - migration
+      - build-open-api
+      - deploy-frontend:
+        requires:
+          - build-frontend
+      - deploy-backend:
+        requires:
+          - build-backend
+      - deploy-open-api:
+        requires:
+          - build-open-api
+  migration:
     when: 
       and:
         - << pipeline.parameters.run-build-server-layers >>
@@ -83,20 +106,25 @@ workflows:
         - << pipeline.parameters.run-build-frontend >>
         - << pipeline.parameters.run-build-backend >>
     jobs:
-      - build
-      - deploy:
-          requires: 
-            - build
+      - build-frontend
+      - build-backend:
+      - deploy-frontend:
+        requires:
+          - build-frontend
+      - deploy-backend:
+        requires:
+          - build-backend
   backend:
     when: 
       and: 
-        - << pipeline.parameters.run-build-backend >>
+        - not: << pipeline.parameters.run-build-server-layers >>
         - not: << pipeline.parameters.run-build-frontend >>
+        - << pipeline.parameters.run-build-backend >>
     jobs:
-      - build
-      - deploy:
-          requires: 
-            - build
+      - build-backend:
+      - deploy-backend:
+        requires:
+          - build-backend
   frontend:
     when:
       and: 
@@ -104,17 +132,20 @@ workflows:
         - not: << pipeline.parameters.run-build-backend >>
         - << pipeline.parameters.run-build-frontend >>
     jobs:
-      - build
-      - deploy:
-          requires: 
-            - build
+      - build-frontend
+      - deploy-frontend:
+        requires:
+          - build-frontend
   open-api:
-    when: << pipeline.parameters.run-build-open-api >>
+    when:
+      and:
+        - not: << pipeline.parameters.run-build-server-layers >>
+        - << pipeline.parameters.run-build-open-api >>
     jobs:
-      - build
-      - deploy:
-          requires: 
-            - build
+      - build-open-api
+      - deploy-open-api:
+        requires:
+          - build-open-api
   app-root:
     when: << pipeline.parameters.run-build-root >>
     jobs:
