@@ -26,9 +26,9 @@ jobs:
     executor: default
     steps:
       - run: 
-        command: |
-          echo "CIRCLE_BRANCH is '$CIRCLE_BRANCH'"
-          echo "pipeline.git.branch is '<<pipeline.git.branch>>'"
+          command: |
+            echo "CIRCLE_BRANCH is '$CIRCLE_BRANCH'"
+            echo "pipeline.git.branch is '<<pipeline.git.branch>>'"
   migration: 
     executor: default
     steps:
