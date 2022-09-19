@@ -51,11 +51,11 @@ workflows:
             open-api/.* run-build-open-api true
             server-layers/.* run-build-server-layers true
             . run-build-root true
-          base-revision: main
+          requires:
+            - generate-config
+#          base-revision: main
           # this is the path of the configuration we should trigger once
           # path filtering and pipeline parameter value updates are
           # complete. In this case, we are using the parent dynamic
           # configuration itself.
 #          config-path: .circleci/continue_config.yml
-          requires:
-            - generate-config
