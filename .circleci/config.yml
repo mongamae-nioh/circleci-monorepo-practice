@@ -53,6 +53,4 @@ workflows:
           # complete. In this case, we are using the parent dynamic
           # configuration itself.
           config-path: .circleci/continue_config.yml
-          parameters: |
-            $PROJECT_ID
       - export-project-id
