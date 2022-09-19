@@ -30,6 +30,9 @@ parameters:
   userId:
     type: string
     default: 'USERID'
+  env:
+    type: string
+    default: 'REPLACE'
 
 jobs:
   display-env-and-parameter:
