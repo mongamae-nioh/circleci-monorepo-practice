@@ -21,6 +21,9 @@ parameters:
   run-build-root:
     type: boolean
     default: false
+  root-dir:
+    type: boolean
+    default: false
   targetEnv:
     type: string
     default: ''
