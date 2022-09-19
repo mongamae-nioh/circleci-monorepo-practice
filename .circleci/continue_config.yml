@@ -146,13 +146,13 @@ workflows:
       - deploy-open-api:
           requires:
             - build-open-api
-  app-root:
-    when: << pipeline.parameters.run-build-root >>
-    jobs:
-      - build
-      - deploy:
-          requires: 
-            - build
+#  app-root:
+#    when: << pipeline.parameters.run-build-root >>
+#    jobs:
+#      - build
+#      - deploy:
+#          requires: 
+#            - build
 #  update-traffic:
 #    jobs: 
 #      - update-traffic:
