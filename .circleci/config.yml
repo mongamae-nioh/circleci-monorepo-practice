@@ -19,7 +19,7 @@ orbs:
 jobs:
   generate-config:
     docker:
-      - image: bufferings/cimg-cue
+      - image: cimg/base:2022.09
     steps:
       - checkout
       - run:
