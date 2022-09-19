@@ -28,7 +28,7 @@ jobs:
     docker:
       - image: cimg/node:18.9.0
     steps:
-      - run: export-project-id
+      - export-project-id
 
 workflows:
   # the always-run workflow is always triggered, regardless of the pipeline parameters.
