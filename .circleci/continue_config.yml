@@ -109,11 +109,11 @@ workflows:
       - build-frontend
       - build-backend:
       - deploy-frontend:
-        requires:
-          - build-frontend
+          requires:
+            - build-frontend
       - deploy-backend:
-        requires:
-          - build-backend
+          requires:
+            - build-backend
   backend:
     when: 
       and: 
@@ -123,8 +123,8 @@ workflows:
     jobs:
       - build-backend:
       - deploy-backend:
-        requires:
-          - build-backend
+          requires:
+            - build-backend
   frontend:
     when:
       and: 
@@ -134,8 +134,8 @@ workflows:
     jobs:
       - build-frontend
       - deploy-frontend:
-        requires:
-          - build-frontend
+          requires:
+            - build-frontend
   open-api:
     when:
       and:
@@ -144,8 +144,8 @@ workflows:
     jobs:
       - build-open-api
       - deploy-open-api:
-        requires:
-          - build-open-api
+          requires:
+            - build-open-api
   app-root:
     when: << pipeline.parameters.run-build-root >>
     jobs:
