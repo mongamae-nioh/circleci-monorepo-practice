@@ -5,19 +5,6 @@ parameters:
     type: string
     default: ''
 
-commands:
-  export-project-id:
-    steps:
-      - run:
-          command: >-
-            PROJECT_ID="test-project" && 
-            echo $PROJECT_ID &&
-            echo "export PROJECT_ID=$PROJECT_ID" >> $BASH_ENV &&
-            source $BASH_ENV &&
-            touch $BASH_ENV &&
-            ls -la /tmp &&
-            cat $BASH_ENV
-
 # this allows you to use CircleCI's dynamic configuration feature
 setup: true
 
@@ -27,21 +14,17 @@ orbs:
   path-filtering: circleci/path-filtering@0.1.1
 
 jobs:
-  export-project-id:
-    docker:
-      - image: cimg/node:18.9.0
-    steps:
-      - export-project-id
   generate-config:
     docker:
       - image: bufferings/cimg-cue
     steps:
-      - checkout
+#      - checkout
       - run:
           name: Generate config
           command: |
             cat .circleci/continue_config.yml | sed -e 's/PROJECT_ID/test-project/g' > .circleci/generated_config.yml
             cat .circleci/generated_config.yml
+#            replace <<parameter.env>> to fix PROJECT_ID
 #            sed -e 's/PROJECT_ID/test-project/g' .circleci/continue_config.yml > .circleci/generated_config.yml
       - persist_to_workspace:
           root: .
