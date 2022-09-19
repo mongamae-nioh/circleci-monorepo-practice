@@ -28,7 +28,7 @@ jobs:
       - run:
           name: Generate config
           command: |
-            cat .circleci/continue_config.yml | \
+            cat .circleci/template_config.yml | \
             sed \
             -e 's/ENVIRONMENT/<<pipeline.parameters.environment>>/g' \
             -e 's/CHANNELID/<<pipeline.parameters.channelId>>/g' \
