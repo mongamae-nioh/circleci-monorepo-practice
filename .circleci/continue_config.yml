@@ -107,12 +107,13 @@ workflows:
     jobs:
       - build-frontend
       - build-backend
-      - deploy-frontend:
-          requires:
-            - build-frontend
       - deploy-backend:
           requires:
             - build-backend
+      - deploy-frontend:
+          requires:
+            - build-frontend
+            - deploy-backend
   backend:
     when: 
       and: 
