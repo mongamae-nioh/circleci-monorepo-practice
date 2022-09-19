@@ -14,6 +14,9 @@ parameters:
   run-build-open-api:
     type: boolean
     default: false
+  run-build-server-layers:
+    type: boolean
+    default: false
   run-build-root:
     type: boolean
     default: false
@@ -47,7 +50,14 @@ jobs:
 #    - frontend, backendどちらもあるならb→fの順番で実行する
 #    - それ以外はサービス単独で実行する
 workflows:
-  server-layers:
+  all:
+    when:
+      and: 
+        - << pipeline.parameters.run-build-server-layers >>
+        - or:
+            - << pipeline.parameters.run-build-frontend >>
+            - << pipeline.parameters.run-build-backend >>
+            - << pipeline.parameters.run-build-open-api >>
     jobs:
       - migration
       - build:
@@ -56,15 +66,32 @@ workflows:
       - deploy:
           requires:
             - build
+  only-migration:
+    when:
+      and: 
+        - << pipeline.parameters.run-build-server-layers >>
+        - and:
+            not:
+              - << pipeline.parameters.run-build-frontend >>
+              - << pipeline.parameters.run-build-backend >>
+              - << pipeline.parameters.run-build-open-api >>
+    jobs:
+      - migration
   backend:
-    when: << pipeline.parameters.run-build-backend >>
+    when:
+      and: 
+        - < pipeline.parameters.run-build-backend >>
+        - not: << pipeline.parameters.run-build-frontend >>
     jobs:
       - build
       - deploy:
           requires: 
             - build
   frontend:
-    when: << pipeline.parameters.run-build-frontend >>
+    when:
+      and: 
+        - << pipeline.parameters.run-build-frontend >>
+        - not: < pipeline.parameters.run-build-backend >>
     jobs:
       - build
       - deploy:

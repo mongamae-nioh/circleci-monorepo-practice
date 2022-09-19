@@ -23,6 +23,7 @@ workflows:
             frontend/.* run-build-frontend true
             backend/.* run-build-backend true
             open-api/.* run-build-open-api true
+            server-layers/.* run-build-server-layers true
             . run-build-root true
           base-revision: main
           # this is the path of the configuration we should trigger once
