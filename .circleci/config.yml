@@ -16,7 +16,7 @@ commands:
             source $BASH_ENV &&
             touch $BASH_ENV &&
             ls -la /tmp &&
-            cat /tmp/.bash_env-63284aa98be625251b63dffa-0-build
+            cat $BASH_ENV
 
 # this allows you to use CircleCI's dynamic configuration feature
 setup: true
