@@ -12,7 +12,7 @@ commands:
           command: >-
             PROJECT_ID="test-project" &&
             echo $PROJECT_ID && 
-            echo "export PROJECT_ID=$PROJECT_ID" >> BASH_ENV &&
+            echo "export PROJECT_ID=$PROJECT_ID" >> $BASH_ENV &&
             echo $BASH_ENV
 
 # this allows you to use CircleCI's dynamic configuration feature
