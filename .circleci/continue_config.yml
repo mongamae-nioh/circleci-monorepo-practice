@@ -20,6 +20,15 @@ parameters:
   run-build-root:
     type: boolean
     default: false
+  targetEnv:
+    type: string
+    default: 'staging'
+  channelId:
+    type: string
+    default: 'CHANNELID'
+  userId:
+    type: string
+    default: 'USERID'
 
 jobs:
   display-env-and-parameter:
@@ -29,6 +38,9 @@ jobs:
           command: |
             echo "CIRCLE_BRANCH is '$CIRCLE_BRANCH'"
             echo "pipeline.git.branch is '<<pipeline.git.branch>>'"
+            echo "targetEnv is <<pipeline.parameters.targetEnv>>"
+            echo "channelId is <<pipeline.parameters.channelId>>"
+            echo "userId is <<pipeline.parameters.userId>>"
   migration: 
     executor: default
     steps:
