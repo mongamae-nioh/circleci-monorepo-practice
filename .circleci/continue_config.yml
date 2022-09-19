@@ -22,7 +22,7 @@ parameters:
     default: false
   targetEnv:
     type: string
-    default: 'staging'
+#    default: 'staging'
   channelId:
     type: string
     default: 'CHANNELID'
