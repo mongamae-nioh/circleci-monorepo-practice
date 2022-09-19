@@ -70,15 +70,16 @@ workflows:
     when: 
       and:
         - << pipeline.parameters.run-build-server-layers >>
-        - or:
-            - not << pipeline.parameters.run-build-frontend >>
-            - not << pipeline.parameters.run-build-backend >>
-            - not << pipeline.parameters.run-build-open-api >>
+        - and:
+            - not: << pipeline.parameters.run-build-frontend >>
+            - not: << pipeline.parameters.run-build-backend >>
+            - not: << pipeline.parameters.run-build-open-api >>
     jobs:
       - migration
   front-and-backend:
     when: 
       and: 
+        - not: << pipeline.parameters.run-build-server-layers >>
         - << pipeline.parameters.run-build-frontend >>
         - << pipeline.parameters.run-build-backend >>
     jobs:
