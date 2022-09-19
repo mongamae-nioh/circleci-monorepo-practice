@@ -92,6 +92,10 @@ workflows:
   display-env-and-parameter:
     jobs:
       - display-env-and-parameter
+  package-json:
+    when: << pipeline.parameters.root-dir >>
+    jobs:
+      - display-env-and-parameter
   all:
     when:
       and: 

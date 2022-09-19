@@ -57,6 +57,7 @@ workflows:
             backend/.* run-build-backend true
             open-api/.* run-build-open-api true
             server-layers/.* run-build-server-layers true
+            package*.json root-dir true
           base-revision: main
           # this is the path of the configuration we should trigger once
           # path filtering and pipeline parameter value updates are
