@@ -104,11 +104,11 @@ workflows:
       - deploy:
           requires: 
             - build
-  update-traffic:
-    jobs: 
-      - update-traffic:
-          requires:
-            - server-layers
-            - frontend
-            - backend
-            - open-api
+#  update-traffic:
+#    jobs: 
+#      - update-traffic:
+#          requires:
+#            - server-layers
+#            - frontend
+#            - backend
+#            - open-api
