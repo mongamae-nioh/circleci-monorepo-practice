@@ -30,9 +30,9 @@ parameters:
   userId:
     type: string
     default: 'USERID'
-  env:
+  environment:
     type: string
-    default: 'REPLACE'
+    default: 'ENVIRONMENT'
 
 jobs:
   display-env-and-parameter:
@@ -45,7 +45,7 @@ jobs:
             echo "targetEnv is <<pipeline.parameters.targetEnv>>"
             echo "channelId is <<pipeline.parameters.channelId>>"
             echo "userId is <<pipeline.parameters.userId>>"
-            echo "env is <<pipeline.parameters.env>>"
+            echo "environment is <<pipeline.parameters.environment>>"
   migration: 
     executor: default
     steps:
