@@ -76,7 +76,7 @@ workflows:
     jobs:
       - migration
       - build-frontend
-      - build-backend:
+      - build-backend
       - build-open-api
       - deploy-backend:
           requires:
