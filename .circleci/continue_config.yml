@@ -22,6 +22,13 @@ parameters:
     default: false
 
 jobs:
+  display-env-and-pamrameters:
+    executor: defaults
+    steps:
+      - run: 
+        command: |
+          echo "CIRCLE_BRANCH is '$CIRCLE_BRANCH'"
+          echo "pipeline.git.branch is '<<pipeline.git.branch>>'"
   migration: 
     executor: default
     steps:
@@ -101,9 +108,9 @@ workflows:
   front-and-backend:
     when: 
       and: 
-        - not: << pipeline.parameters.run-build-server-layers >>
         - << pipeline.parameters.run-build-frontend >>
         - << pipeline.parameters.run-build-backend >>
+        - not: << pipeline.parameters.run-build-server-layers >>
     jobs:
       - build-frontend
       - build-backend
@@ -117,9 +124,9 @@ workflows:
   backend:
     when: 
       and: 
+        - << pipeline.parameters.run-build-backend >>
         - not: << pipeline.parameters.run-build-server-layers >>
         - not: << pipeline.parameters.run-build-frontend >>
-        - << pipeline.parameters.run-build-backend >>
     jobs:
       - build-backend
       - deploy-backend:
@@ -128,9 +135,9 @@ workflows:
   frontend:
     when:
       and: 
+        - << pipeline.parameters.run-build-frontend >>
         - not: << pipeline.parameters.run-build-server-layers >>
         - not: << pipeline.parameters.run-build-backend >>
-        - << pipeline.parameters.run-build-frontend >>
     jobs:
       - build-frontend
       - deploy-frontend:
@@ -139,8 +146,8 @@ workflows:
   open-api:
     when:
       and:
-        - not: << pipeline.parameters.run-build-server-layers >>
         - << pipeline.parameters.run-build-open-api >>
+        - not: << pipeline.parameters.run-build-server-layers >>
     jobs:
       - build-open-api
       - deploy-open-api:
