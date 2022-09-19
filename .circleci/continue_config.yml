@@ -22,8 +22,8 @@ parameters:
     default: false
 
 jobs:
-  display-env-and-pamrameters:
-    executor: defaults
+  display-env-and-pamrameter:
+    executor: default
     steps:
       - run: 
         command: |
@@ -72,6 +72,9 @@ jobs:
 
 # TODO: 
 workflows:
+  display-env-and-pamrameter:
+    jobs:
+      - display-env-and-pamrameters
   all:
     when:
       and: 
