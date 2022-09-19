@@ -1,35 +1,9 @@
 version: 2.1
 
-executors:
-  default:
-    docker:
-      - image: cimg/node:18.9.0
-
 parameters:
-  run-build-frontend:
-    type: boolean
-    default: false
-  run-build-backend:
-    type: boolean
-    default: false
-  run-build-open-api:
-    type: boolean
-    default: false
-  run-build-server-layers:
-    type: boolean
-    default: false
-  run-build-root:
-    type: boolean
-    default: false
   targetEnv:
     type: string
     default: ''
-  channelId:
-    type: string
-    default: 'CHANNELID'
-  userId:
-    type: string
-    default: 'USERID'
 
 commands:
   export-project-id:
@@ -55,57 +29,6 @@ jobs:
       - image: cimg/node:18.9.0
     steps:
       - export-project-id
-  display-env-and-parameter:
-    executor: default
-    steps:
-      - run: 
-          command: |
-            echo "CIRCLE_BRANCH is '$CIRCLE_BRANCH'"
-            echo "pipeline.git.branch is '<<pipeline.git.branch>>'"
-            echo "targetEnv is <<pipeline.parameters.targetEnv>>"
-            echo "channelId is <<pipeline.parameters.channelId>>"
-            echo "userId is <<pipeline.parameters.userId>>"
-            echo $BASH_ENV
-  migration: 
-    executor: default
-    steps:
-      - run:
-          command: echo "migrate"
-  build-frontend:
-    executor: default
-    steps:
-      - run:
-          command: echo "build frontend!"
-  build-backend:
-    executor: default
-    steps:
-      - run:
-          command: echo "build backend!"
-  build-open-api:
-    executor: default
-    steps:
-      - run:
-          command: echo "build open api!"
-  deploy-frontend:
-    executor: default
-    steps:
-      - run:
-          command: echo "deploy frontend!"
-  deploy-backend:
-    executor: default
-    steps:
-      - run:
-          command: echo "deploy backend!"
-  deploy-open-api:
-    executor: default
-    steps:
-      - run:
-          command: echo "deploy open api!"
-  update-traffic:
-    executor: default
-    steps:
-      - run:
-          command: echo "update traffice to latest container"
 
 workflows:
   # the always-run workflow is always triggered, regardless of the pipeline parameters.
@@ -129,104 +52,7 @@ workflows:
           # path filtering and pipeline parameter value updates are
           # complete. In this case, we are using the parent dynamic
           # configuration itself.
-          #config-path: .circleci/continue_config.yml
+          config-path: .circleci/continue_config.yml
+          parameters: |
+            $PROJECT_ID
       - export-project-id
-  display-env-and-parameter:
-    jobs:
-      - display-env-and-parameter
-  all:
-    when:
-      and: 
-        - << pipeline.parameters.run-build-server-layers >>
-        - or:
-            - << pipeline.parameters.run-build-frontend >>
-            - << pipeline.parameters.run-build-backend >>
-            - << pipeline.parameters.run-build-open-api >>
-    jobs:
-      - migration
-      - build-frontend
-      - build-backend
-      - build-open-api
-      - deploy-backend:
-          requires:
-            - build-backend
-      - deploy-frontend:
-          requires:
-            - build-frontend
-            - deploy-backend
-      - deploy-open-api:
-          requires:
-            - build-open-api
-  migration:
-    when: 
-      and:
-        - << pipeline.parameters.run-build-server-layers >>
-        - and:
-            - not: << pipeline.parameters.run-build-frontend >>
-            - not: << pipeline.parameters.run-build-backend >>
-            - not: << pipeline.parameters.run-build-open-api >>
-    jobs:
-      - migration
-  front-and-backend:
-    when: 
-      and: 
-        - << pipeline.parameters.run-build-frontend >>
-        - << pipeline.parameters.run-build-backend >>
-        - not: << pipeline.parameters.run-build-server-layers >>
-    jobs:
-      - build-frontend
-      - build-backend
-      - deploy-backend:
-          requires:
-            - build-backend
-      - deploy-frontend:
-          requires:
-            - build-frontend
-            - deploy-backend
-  backend:
-    when: 
-      and: 
-        - << pipeline.parameters.run-build-backend >>
-        - not: << pipeline.parameters.run-build-server-layers >>
-        - not: << pipeline.parameters.run-build-frontend >>
-    jobs:
-      - build-backend
-      - deploy-backend:
-          requires:
-            - build-backend
-  frontend:
-    when:
-      and: 
-        - << pipeline.parameters.run-build-frontend >>
-        - not: << pipeline.parameters.run-build-server-layers >>
-        - not: << pipeline.parameters.run-build-backend >>
-    jobs:
-      - build-frontend
-      - deploy-frontend:
-          requires:
-            - build-frontend
-  open-api:
-    when:
-      and:
-        - << pipeline.parameters.run-build-open-api >>
-        - not: << pipeline.parameters.run-build-server-layers >>
-    jobs:
-      - build-open-api
-      - deploy-open-api:
-          requires:
-            - build-open-api
-#  app-root:
-#    when: << pipeline.parameters.run-build-root >>
-#    jobs:
-#      - build
-#      - deploy:
-#          requires: 
-#            - build
-#  update-traffic:
-#    jobs: 
-#      - update-traffic:
-#          requires:
-#            - server-layers
-#            - frontend
-#            - backend
-#            - open-api
