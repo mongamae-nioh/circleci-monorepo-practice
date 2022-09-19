@@ -25,7 +25,7 @@ jobs:
       - run:
           name: Generate config
           command: |
-            cat .circleci/continue_config.yml | sed -e 's/REPLACE/<<parameter.env>>/g' > .circleci/generated_config.yml
+            cat .circleci/continue_config.yml | sed -e 's/REPLACE/<<parameters.env>>/g' > .circleci/generated_config.yml
             cat .circleci/generated_config.yml
 #            replace <<parameter.env>> to fix PROJECT_ID
 #            sed -e 's/PROJECT_ID/test-project/g' .circleci/continue_config.yml > .circleci/generated_config.yml
