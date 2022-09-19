@@ -8,13 +8,14 @@ parameters:
 commands:
   export-project-id:
     steps:
+      - run: touch $BASH_ENV
       - run:
           command: >-
             PROJECT_ID="test-project" && 
             echo $PROJECT_ID &&
             echo 'export PROJECT_ID=$PROJECT_ID' >> $BASH_ENV &&
-            source $BASH_ENV
-#            cat /tmp/.bash_env-63284aa98be625251b63dffa-0-build
+            source $BASH_ENV &&
+            cat /tmp/.bash_env-63284aa98be625251b63dffa-0-build
 
 # this allows you to use CircleCI's dynamic configuration feature
 setup: true
