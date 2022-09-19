@@ -42,8 +42,9 @@ jobs:
             echo "targetEnv is <<pipeline.parameters.targetEnv>>"
             echo "channelId is <<pipeline.parameters.channelId>>"
             echo "userId is <<pipeline.parameters.userId>>"
-            ls -la /tmp
-            cat $BASH_ENV
+            echo "<<pipeline.parameters.project_id>>"
+#            ls -la /tmp
+#            cat $BASH_ENV
   migration: 
     executor: default
     steps:
