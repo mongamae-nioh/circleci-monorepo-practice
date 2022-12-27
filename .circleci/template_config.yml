@@ -36,12 +36,15 @@ parameters:
   environment:
     type: string
     default: 'ENVIRONMENT'
+  const:
+    type: string
+    default: ''
 
 jobs:
   display-env-and-parameter:
     executor: default
     steps:
-      - run: 
+      - run:
           command: |
             echo "CIRCLE_BRANCH is '$CIRCLE_BRANCH'"
             echo "pipeline.git.branch is '<<pipeline.git.branch>>'"
@@ -49,7 +52,8 @@ jobs:
             echo "channelId is <<pipeline.parameters.channelId>>"
             echo "userId is <<pipeline.parameters.userId>>"
             echo "environment is <<pipeline.parameters.environment>>"
-  migration: 
+            echo "const is <<pipeline.parameters.const>>"
+  migration:
     executor: default
     steps:
       - run:
@@ -90,7 +94,7 @@ jobs:
       - run:
           command: echo "update traffice to latest container"
 
-# TODO: 
+# TODO:
 workflows:
   display-env-and-parameter:
     jobs:
@@ -101,7 +105,7 @@ workflows:
       - display-env-and-parameter
   all:
     when:
-      and: 
+      and:
         - << pipeline.parameters.run-build-server-layers >>
         - or:
             - << pipeline.parameters.run-build-frontend >>
@@ -123,7 +127,7 @@ workflows:
           requires:
             - build-open-api
   migration:
-    when: 
+    when:
       and:
         - << pipeline.parameters.run-build-server-layers >>
         - and:
@@ -133,8 +137,8 @@ workflows:
     jobs:
       - migration
   front-and-backend:
-    when: 
-      and: 
+    when:
+      and:
         - << pipeline.parameters.run-build-frontend >>
         - << pipeline.parameters.run-build-backend >>
         - not: << pipeline.parameters.run-build-server-layers >>
@@ -149,8 +153,8 @@ workflows:
             - build-frontend
             - deploy-backend
   backend:
-    when: 
-      and: 
+    when:
+      and:
         - << pipeline.parameters.run-build-backend >>
         - not: << pipeline.parameters.run-build-server-layers >>
         - not: << pipeline.parameters.run-build-frontend >>
@@ -161,7 +165,7 @@ workflows:
             - build-backend
   frontend:
     when:
-      and: 
+      and:
         - << pipeline.parameters.run-build-frontend >>
         - not: << pipeline.parameters.run-build-server-layers >>
         - not: << pipeline.parameters.run-build-backend >>
@@ -180,3 +184,4 @@ workflows:
       - deploy-open-api:
           requires:
             - build-open-api
+# VS Code Extension Version: 1.5.0

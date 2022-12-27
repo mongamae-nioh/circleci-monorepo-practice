@@ -10,6 +10,9 @@ parameters:
   channelId:
     type: string
     default: 'test-channel'
+  const:
+    type: string
+    default: 'hoge'
 
 # this allows you to use CircleCI's dynamic configuration feature
 setup: true
@@ -66,3 +69,5 @@ workflows:
           config-path: .circleci/generated_config.yml
           requires:
             - generate-config
+
+# VS Code Extension Version: 1.5.0
