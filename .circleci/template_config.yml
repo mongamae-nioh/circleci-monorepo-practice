@@ -38,7 +38,7 @@ parameters:
     default: 'ENVIRONMENT'
   const:
     type: string
-    default: ''
+    default: 'fuga'
 
 jobs:
   display-env-and-parameter:
